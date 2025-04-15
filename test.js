@@ -1,5 +1,5 @@
 import express from "express";
-import { readFile } from "node:fs";
+import { readFile } from "node:fs"
 import path from "node:path";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -28,13 +28,12 @@ app.get("/:page", (req, res) => {
     const filename = path.join(__dirname, `${page}.html`);
 
     readFile(filename, (err, data) => {
-
         if (err) {
-            console.log(`Error loading ${filename}:`, err);
+            console.log(`${filename} not Found`);
 
-            readFile(path.join(__dirname, "404.html"), (err404, data404) => {
+            readFile("404.html", (err404, data404) => {
                 if (err404) {
-                    return res.status(404).send("404 Not Found.");
+                    console.log("404 Not Found");
                 }
 
                 res.type("html");
@@ -45,10 +44,11 @@ app.get("/:page", (req, res) => {
         }
 
         res.type("html");
-        return res.status(200).send(data);
+        res.status(200).send(data);
+
     });
 });
 
 app.listen(3000, () => {
-    console.log("Server is running on http://localhost:3000");
-});
+    console.log("Listening on Port 3000.")
+})
